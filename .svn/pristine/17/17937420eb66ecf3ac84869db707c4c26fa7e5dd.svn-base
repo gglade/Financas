@@ -1,0 +1,156 @@
+package br.com.financeiro.view;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.model.ListDataModel;
+import javax.inject.Inject;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import br.com.financeiro.controllers.PermissaoController;
+import br.com.financeiro.controllers.UsuarioController;
+import br.com.financeiro.dominio.Papel;
+import br.com.financeiro.dominio.Permissao;
+import br.com.financeiro.dominio.PermissaoId;
+import br.com.financeiro.dominio.Usuario;
+
+
+@Component
+@Scope("session")
+public class PermissaoBean extends AbstractCrudMBean<Permissao>{
+	
+	Usuario usuario = new Usuario();
+	Papel papel = new Papel();
+	PermissaoId id = new PermissaoId();
+
+	private int userSelecionado;
+	private int roleSelecionado;
+	private List<Usuario> listaUsuarios;
+	
+	
+	public PermissaoBean(){
+		super();
+		limparFormulario();
+	}
+
+	@Inject
+	private PermissaoController controller;
+	
+	@Inject 
+	UsuarioController useController;
+	
+	@Override
+	protected void limparFormulario() {		
+		entidade = new Permissao();	
+//		id.setUsuario(new Usuario());
+//		id.setPapel(new Papel());
+	} 
+	
+	 //montando a lista  
+//	   public List<Usuario> getListEstado() {        
+//	        
+//	      List<Usuario> list = useController.findAll();  
+//	      
+//	      listaUsuarios = new ArrayList<Usuario>(list.size());  
+//	        
+//	      Usuario u = new Usuario();  
+//	      u.setId(0);        
+//	      Usuario user = new Usuario(u);  
+//	      listaUsuarios.add(user);  
+//	        
+//	      for(EstadoBean estadoBean: list)  
+//	         listEstado.add(new SelectItem(estadoBean,estadoBean.getNome()));  
+//	        
+//	      return listEstado;  
+//	   }     
+	
+	
+	public String salvarPermissao(){
+		entidade = new Permissao();
+		usuario.setId(userSelecionado);
+		papel.setId(roleSelecionado);
+		
+		
+		id.setUsuario(usuario);
+		id.setPapel(papel);
+		
+		entidade.setId(id);
+		controller.saveOrUpdate(entidade);
+		limparFormulario();
+		
+		return null;
+	}
+	
+	
+	public String prepararAlterar() {
+		// limparFormulario();
+		entidade = dataModel.getRowData();
+		return null;
+	}
+	
+	public ListDataModel<Permissao> getDataModel() {
+		dataModel = new ListDataModel<Permissao>(controller.findAll());
+		return dataModel;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Papel getPapel() {
+		return papel;
+	}
+
+	public void setPapel(Papel papel) {
+		this.papel = papel;
+	}
+
+
+	public PermissaoId getId() {
+		return id;
+	}
+
+
+	public void setId(PermissaoId id) {
+		this.id = id;
+	}
+
+
+	public int getUserSelecionado() {
+		return userSelecionado;
+	}
+
+
+	public void setUserSelecionado(int userSelecionado) {
+		this.userSelecionado = userSelecionado;
+	}
+
+
+	public int getRoleSelecionado() {
+		return roleSelecionado;
+	}
+
+
+	public void setRoleSelecionado(int roleSelecionado) {
+		this.roleSelecionado = roleSelecionado;
+	}
+
+
+	public PermissaoController getController() {
+		return controller;
+	}
+
+
+	public void setController(PermissaoController controller) {
+		this.controller = controller;
+	}
+	
+	
+	
+}

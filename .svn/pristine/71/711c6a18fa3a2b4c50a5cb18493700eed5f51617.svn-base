@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<body> 
+<h:form id="form">
+		<p:growl id="messages" showDetail="true" />
+		
+		<p:fieldset legend="Listagem de Permissões e Seus Usuários">
+			<p:dataTable id="tabelaUsuario" var="p"	value="#{permissaoBean.dataModel}">
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{p.id.usuario.nome}" />
+				</p:column>
+				
+				<p:column>				
+					<f:facet name="header">
+						<h:outputText value="Login" />
+					</f:facet>
+					<h:outputText value="#{p.id.usuario.login}" />
+				</p:column>
+	
+				<p:column>				
+					<f:facet name="header">
+						<h:outputText value="Papel" />
+					</f:facet>
+					<h:outputText value="#{p.id.papel.descricao}" />
+				</p:column>
+						
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Alterar" />
+					</f:facet>
+
+					<p:commandButton action="#{permissaoBean.prepararAlterar()}"
+						value="Alterar" update="infosUsuario"
+						oncomplete="dialogGerUsuario.show()">
+						<f:ajax render="@form" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Excluir" />
+					</f:facet>
+					<h:commandLink action="#{permissaoBean.excluir()}" value="Excluir"
+						immediate="true">
+						<f:ajax render="@form" />
+					</h:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</p:fieldset>
+		
+		<p:panel header="Usuários">
+			<h:inputHidden value="#{contaBean.entidade.id}" />			
+			<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel value="Usuário: " for="usuario" />
+						<p:selectOneMenu id="usuario" value="#{permissaoBean.usuarioSelecionado}"  required="true" requiredMessage="Selecione o Usuário">
+						<f:selectItem itemLabel="-- Selecione --" itemValue="0" />
+						<f:selectItems value="#{usuarioBean.usuarios}" var="u"	itemLabel="#{u.nome}" itemValue="#{u.id}" />
+						<p:message for="usuario" />
+					</p:selectOneMenu>
+									
+					<h:outputLabel value="Papel: " for="papel" />
+						<p:selectOneMenu id="papel" value="#{permissaoBean.papelSelecionado}"  required="true" requiredMessage="Selecione um Papel">
+						<f:selectItem itemLabel="-- Selecione --" itemValue="0" />
+						<f:selectItems value="#{papelBean.papeis}" var="p"	itemLabel="#{p.descricao}" itemValue="#{p.id}" />
+						<p:message for="papel" />
+					</p:selectOneMenu>				
+				</h:panelGrid>
+		</p:panel>
+			<h:panelGrid columns="4">
+				<p:commandButton value="Cadastrar Permissão" action="#{permissaoBean.salvarPermissao()}" ajax="false" />
+				<p:commandButton value="Cancelar" action="../index.jsf"	immediate="true" ajax="false" />
+			</h:panelGrid>
+		</h:form>
+<br/>	
+</body> 
+</html>

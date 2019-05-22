@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<body> 
+
+<h:form id="formListagem">
+
+		<p:fieldset legend="Listagem de Permissões e Seus Usuários">
+			<p:dataTable id="tabelaUsuario" var="p"	value="#{permissaoBean.dataModel}">
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{p.id.usuario.nome}" />
+				</p:column>
+				
+				<p:column>				
+					<f:facet name="header">
+						<h:outputText value="Login" />
+					</f:facet>
+					<h:outputText value="#{p.id.usuario.login}" />
+				</p:column>
+	
+				<p:column>				
+					<f:facet name="header">
+						<h:outputText value="Papel" />
+					</f:facet>
+					<h:outputText value="#{p.id.papel.descricao}" />
+				</p:column>
+						
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Alterar" />
+					</f:facet>
+
+					<p:commandButton action="#{permissaoBean.prepararAlterar()}"
+						value="Alterar" update="infosUsuario"
+						oncomplete="dialogGerUsuario.show()">
+						<f:ajax render="@form" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Excluir" />
+					</f:facet>
+					<h:commandLink action="#{permissaoBean.excluir()}" value="Excluir"
+						immediate="true">
+						<f:ajax render="@form" />
+					</h:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</p:fieldset>
+	</h:form>
+
+	<p:dialog header="Gerencia Usuários" widgetVar="dialogGerUsuario"
+		resizable="false" modal="true" showEffect="slide" width="800">
+		<h:form prependId="false">
+			<h:panelGrid id="infosUsuario" columns="2" style="margin-bottom:10px">
+
+				<h:outputLabel for="nome" value="Nome:" />
+				<h:inputText id="nome"
+					value="#{permissaoBean.entidade.id.usuario.nome}" />
+
+				<h:outputLabel for="login" value="Login:" />
+				<h:inputText id="login" value="#{permissaoBean.entidade.id.papel.descricao}" />
+
+				<p:commandButton update="tabelaUsuario,formListagem" oncomplete="dialogGerUsuario.hide();" 
+				action="#{permissaoBean.salvar()}" value="Inserir Usuario" />
+
+				<p:commandButton update="tabelaUsuario,formListagem" oncomplete="dialogGerUsuario.hide();"
+					action="#{permissaoBean.alterar()}" value="Alterar Usuario" />
+					
+			</h:panelGrid>
+		</h:form>
+	</p:dialog><br/>
+
+	<h:form id="formPermissao">
+			<p:panel header="Novas Permissões">
+			<h:inputHidden value="#{permissaoBean.entidade.id}" />
+
+			<h:panelGrid columns="2" cellpadding="5">	
+								
+				<h:outputLabel value="Usuário: " for="usuario" />
+				<p:selectOneMenu id="usuario" value="#{permissaoBean.userSelecionado}"  required="true" requiredMessage="Informe Um Usuario">
+					<f:selectItem itemLabel="Selecione" itemValue="0" />
+					<f:selectItems value="#{usuarioBean.usuarios}" var="user"	itemLabel="#{user.nome}" itemValue="user.id"  />
+<!--					<f:converter converterId="#{usuarioConverter}"/>-->
+					<p:message for="usuario" />
+				</p:selectOneMenu>
+											
+				<h:outputLabel value="Papel: " for="papel" />
+					<p:selectOneMenu id="papel" value="#{permissaoBean.roleSelecionado}"  required="true" requiredMessage="Informe Um Papel">
+					<f:selectItem itemLabel="Selecione" itemValue="0" />
+					<f:selectItems value="#{papelBean.papeis}" var="p"	itemLabel="#{p.descricao}" itemValue="#{p.id}" />
+					<p:message for="papel" />
+				</p:selectOneMenu>
+				
+				</h:panelGrid>
+				
+				<h:panelGrid columns="4">
+					<p:commandButton value="Cadastrar Nova Permissão " action="#{permissaoBean.salvarPermissao()}" ajax="false" />					
+					<p:commandButton value="Cancelar" action="../index.jsf" immediate="true" ajax="false" />
+				</h:panelGrid>
+				
+		</p:panel>		
+	</h:form>
+
+</body> 
+</html>

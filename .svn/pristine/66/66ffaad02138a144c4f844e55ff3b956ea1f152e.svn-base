@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<!-- 
+		Replace path to template, title, header and body
+		with actual data.
+	 -->
+	<ui:composition template="/templates/common.xhtml">
+			<ui:define name="pageTitle">Title</ui:define>
+			<ui:define name="pageHeader">Administração do Sistema</ui:define>
+			<ui:define name="body">
+				<form jsfc="h:form" id="Adm">
+				
+				<!--		<h:outputText value="#{usuarioMBean.loginUsuario}" />-->
+		<a href="cad_usuario.jsf">Cadastrar Usuário |</a>
+		<a href="FinanceiroV1/pages/adm/update.jsf">Alterar Usuários |</a>
+		<a href="FinanceiroV1/pages/adm/cadtipoconta.jsf">Cadastrar Tipo de Conta |</a>
+		<a href="../index.jsf">Menu Principal</a>		
+				
+				</form>
+			</ui:define>
+	</ui:composition>
+
+</html>

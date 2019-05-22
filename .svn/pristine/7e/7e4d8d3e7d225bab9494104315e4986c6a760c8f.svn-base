@@ -1,0 +1,17 @@
+package br.com.financeiro.services;
+
+import javax.jws.WebService;
+
+import org.springframework.stereotype.Component;
+
+@WebService
+@Component
+public class SaldoRemoteServiceImpl implements SaldoRemoteService{
+
+	@Override
+	public double getSaldoAtual(int idUsuario) {
+		// TODO Auto-generated method stub
+		return idUsuario;
+	}
+
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<body> 
+<h:form id="formDados">
+
+		<p:growl id="messages" showDetail="true" />
+
+		<p:panel header="Saldo Por Usuario">
+			<h:inputHidden value="#{contaBean.entidade.id}" />
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<h:outputLabel value="Usuario: " for="usuario" />				
+				
+				<h:selectOneMenu id="usuario"
+					value="#{contaBean.usuarioSelecionado}" required="true"
+					requiredMessage="Selecione Um Usuario">
+					<f:selectItem itemLabel="Selecione" itemValue="0" />
+					<f:selectItems value="#{usuarioBean.usuarios}" var="u" itemLabel="#{u.nome}" itemValue="#{u.id}" />
+					<p:message for="usuario" />
+				</h:selectOneMenu>
+				
+				
+							
+				</h:panelGrid> 										
+				
+				<p:separator/>
+				<p:commandButton update="tblSaldoUser" id="submitButton" value="Consultar" 
+					actionListener="contaBean.carregarSaldoUser" ajax="false">
+				</p:commandButton>				
+				<p:commandButton value="Voltar" action="/app/publico/index" immediate="true" ajax="false"/>
+				
+	</p:panel>			
+	</h:form>
+			<h:form id="lista">	
+			
+			<h:outputLabel value="Saldo: " for="saldo" />
+			<h:outputText id="tblSaldoUser" value="#{contaBean.saldoUser}" /> <br />
+
+			
+	
+		</h:form>
+
+</body> 
+</html>

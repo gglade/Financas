@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head></h:head>
+<body>
+
+	<h2>Acesso ao Sistema</h2>
+
+	<c:if test="${ not empty SPRING_SECURITY_LAST_EXCEPTION }">
+		<span style="color: red"> ${SPRING_SECURITY_EXCEPTION}</span>		
+	</c:if>
+
+
+	<form action="/Financeiro/j_spring_security_check" method="post">
+
+		<label for="user_login">Usuário:</label>
+		<input id="user_login" type="text" name="j_username" value="${ SPRING_SECURITY_LAST_USERNAME }" /> 
+		
+		<label for="user_password">Senha:</label>
+		<input id="user_password" type="password" name="j_password" /> 
+			
+		<input type="submit" value="OK" />
+
+	</form>
+
+
+
+</body>
+</html>
